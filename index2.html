@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>
+        rock paper scissors
+    </title>
+</head>
+<body>
+    <div id = "container">
+        First to 5 wins. <br>
+        Make your choice: <br>
+        <button id = "rock">Rock</button>
+        <button id = "paper">Paper</button>
+        <button id = "scissors">Scissors</button>
+    </div>
+    <div id = "scoreContainer">
+        <p id = "playState">Play me!</p>
+        <p id = "score">The score is <span id = "playerWins">0</span> to <span id = "computerWins">0</span></p>
+    </div>
+
+    <script>
+        let playerWins = 0,
+            computerWins = 0;
+
+        //Asks for player's throw and determines winner
+        function playRound(playerSelection) {
+            let computerSelection = String(computerPlay()),
+                playState = document.querySelector('playState');
+
+            playerSelection = playerSelection.toLowerCase();
+            
+            //Compares and announces throws. Gives point to winner, unless draw.
+            if (playerSelection == "rock" && computerSelection == "paper") {
+                document.getElementById('playState').textContent = "You chose " + playerSelection + ". Computer chose " + computerSelection + ". You Lose!";
+                document.getElementById('computerWins').textContent = ++computerWins;
+                console.log("You chose " + playerSelection + ". Computer chose " + computerSelection + ". You Lose!");
+            } else if (playerSelection == "rock" && computerSelection == "scissors") {
+                document.getElementById('playState').textContent = "You chose " + playerSelection + ". Computer chose " + computerSelection + ". You win!";
+                document.getElementById('playerWins').textContent = ++playerWins;
+                console.log("You chose " + playerSelection + ". Computer chose " + computerSelection + ". You win!");
+            } else if (playerSelection == "paper" && computerSelection == "rock") {
+                document.getElementById('playState').textContent = "You chose " + playerSelection + ". Computer chose " + computerSelection + ". You win!";
+                document.getElementById('playerWins').textContent = ++playerWins;
+                console.log("You chose " + playerSelection + ". Computer chose " + computerSelection + ". You win!");
+            } else if (playerSelection == "paper" && computerSelection == "scissors") {
+                document.getElementById('playState').textContent = "You chose " + playerSelection + ". Computer chose " + computerSelection + ". You Lose!";
+                document.getElementById('computerWins').textContent = ++computerWins;
+                console.log("You chose " + playerSelection + ". Computer chose " + computerSelection + ". You Lose!");
+            } else if (playerSelection == "scissors" && computerSelection == "rock") {
+                document.getElementById('playState').textContent = "You chose " + playerSelection + ". Computer chose " + computerSelection + ". You Lose!";
+                document.getElementById('computerWins').textContent = ++computerWins;
+                console.log("You chose " + playerSelection + ". Computer chose " + computerSelection + ". You Lose!");
+            } else if (playerSelection == "scissors" && computerSelection == "paper") {
+                document.getElementById('playState').textContent = "You chose " + playerSelection + ". Computer chose " + computerSelection + ". You win!";
+                document.getElementById('playerWins').textContent = ++playerWins;
+                console.log("You chose " + playerSelection + ". Computer chose " + computerSelection + ". You win!");
+            } else if (playerSelection == computerSelection) {
+                document.getElementById('playState').textContent = "You chose " + playerSelection + ". Computer chose " + computerSelection + ". Draw";
+                console.log("You chose " + playerSelection + ". Computer chose " + computerSelection + ". Draw");
+            } else {
+                document.getElementById('playState').textContent = "Misspelling. Try again!";
+                console.log("Misspelling. Try again!")
+            }
+
+            //Checks for 5 wins and declares winner
+            if (playerWins == 5 || computerWins == 5) {
+                let score = document.querySelector('#score'),
+                    winnerNote = document.createElement('div');
+                    winnerNote.classList.add('winnerNote');
+                if (playerWins > 4) {
+                    winnerNote.textContent = "YOU WIN!!! CONGRATULATIONS!!!Refresh to play again.";
+                } else {
+                    winnerNote.textContent = "You lose... Sorry...Refresh to play again.";
+                }
+                score.appendChild(winnerNote);
+
+                //Deletes 'container' div now that game is over
+                let container = document.querySelector('#container');
+                container.parentNode.removeChild(container);
+                
+            }
+        }
+    
+        //Choose computer's throw
+        function computerPlay() {
+            computerRand = Math.random()
+            if (computerRand <= (1/3)) {
+                return 'rock';
+            } else if (computerRand <= (2/3)) {
+                return 'paper';
+            } else {
+                return 'scissors';
+            }
+        }
+
+        //Adds listeners to buttons. Sends pressed button to playRound function
+        let buttons = document.querySelectorAll('button');
+        buttons.forEach((button) => {
+            button.addEventListener('click', (e) => {
+                playRound(e.target.textContent);
+            });
+        });
+    </script>
+</body>
+</html>
